@@ -37,7 +37,7 @@ RUN bundle install
 COPY . . 
 
 # Fake database URL tricks rake into running assets:precompile step that does not require database access 
-RUN DATABASE_URL=postgresql://something/something bundle exec rake assets:precompile
+# RUN DATABASE_URL=postgresql://something/something bundle exec rake assets:precompile
 
 # Run our app script
 CMD bash ./start.sh 3000 
