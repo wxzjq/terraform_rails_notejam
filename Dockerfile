@@ -17,9 +17,9 @@ WORKDIR /rails_terraform_docker
 RUN gem install bundler -v 2.0.2
 
 RUN bundle install
-RUN yarn install
+# RUN yarn install
 
-RUN RAILS_ENV=production NODE_ENV=production RABBIT_NAME=BitCloudify SECRET_KEY_BASE=not_set OLD_AWS_SECRET_ACCESS_KEY=not_set OLD_AWS_ACCESS_KEY_ID=not_set bundle exec rake assets:precompile
+RUN RAILS_ENV=prod NODE_ENV=prod SECRET_KEY_BASE=not_set OLD_AWS_SECRET_ACCESS_KEY=not_set OLD_AWS_ACCESS_KEY_ID=not_set bundle exec rake assets:precompile
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
