@@ -43,4 +43,7 @@ gem 'bcrypt', '~> 3.1.2'
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-gem 'pg', '~> 0.15'
+group :production do
+  gem 'pg', '~> 0.15'
+  gem 'rails_12factor'
+end
