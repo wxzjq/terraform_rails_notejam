@@ -3,7 +3,7 @@ variable "environment" {
 }
 
 variable "subnet_ids" {
-  type        = "list"
+  type        = list(string)
   description = "Subnet ids"
 }
 
@@ -25,7 +25,7 @@ variable "instance_class" {
 }
 
 variable "multi_az" {
-  default     = false
+  default     = true
   description = "Muti-az allowed?"
 }
 

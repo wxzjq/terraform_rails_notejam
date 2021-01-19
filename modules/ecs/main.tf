@@ -84,7 +84,7 @@ resource "random_id" "target_group_sufix" {
 
 resource "aws_alb_target_group" "alb_target_group" {
   name        = "${var.environment}-alb-target-group-${random_id.target_group_sufix.hex}"
-  port        = 80
+  port        = 3000
   protocol    = "HTTP"
   vpc_id      = var.vpc_id
   target_type = "ip"
@@ -167,7 +167,7 @@ resource "aws_alb_listener" "rails_terraform2" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2016-08"
-  certificate_arn   = "arn:aws:acm:us-east-1:202848614748:certificate/6794b513-c6b3-4269-9cad-97f6a42b3c65"
+  certificate_arn   = "arn:aws:acm:us-east-1:202848614748:certificate/0e872798-ed36-46f1-8aee-4040ee577329"
   depends_on        = ["aws_alb_target_group.alb_target_group"]
 
   default_action {
@@ -281,7 +281,7 @@ resource "aws_ecs_service" "web" {
   load_balancer {
     target_group_arn = aws_alb_target_group.alb_target_group.arn
     container_name   = "web"
-    container_port   = "80"
+    container_port   = "3000"
   }
 
   #depends_on = ["aws_alb_target_group.alb_target_group"]
