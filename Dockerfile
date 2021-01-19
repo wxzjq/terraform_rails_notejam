@@ -30,7 +30,7 @@ WORKDIR $APP_HOME
 
 # Install gems
 COPY Gemfile* $APP_HOME/
-RUN bundle update rake
+# RUN bundle update rake
 RUN bundle install
 
 # Copy over our application code
