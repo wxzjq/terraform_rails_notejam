@@ -32,6 +32,9 @@ WORKDIR $APP_HOME
 COPY Gemfile* $APP_HOME/
 RUN bundle install
 
+RUN RAILS_ENV=production rails assets:precompile
+
+
 # Copy over our application code
 COPY . . 
 
