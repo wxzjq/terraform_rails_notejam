@@ -1,31 +1,42 @@
 FROM ruby:2.5.3
 
-ENV PATH /root/.yarn/bin:$PATH
+#Environment variables
+ENV APP_HOME /notejam
 
-ARG build_without
-ARG rails_env
-RUN apt-get update -qq && apt-get install -y binutils curl git gnupg cmake python python-dev postgresql-client supervisor tar tzdata
-RUN apt-get install -y apt-transport-https apt-utils
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && apt-get install -y nodejs
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install -y yarn
-RUN mkdir /rails_terraform_docker
-COPY . /rails_terraform_docker
-WORKDIR /rails_terraform_docker
+# Installation of dependencies
+RUN apt-get update -qq \
+    && apt-get install -y \
+    # Needed for certain gems
+    build-essential \
+    # Needed for postgres gem
+    libpq-dev \
+    # Needed for json extension
+    libgmp3-dev \
+    # Needed for asset compilation
+    nodejs \
+    # The following are used to trim down the size of the image by removing unneeded data
+    && apt-get clean autoclean \
+    && apt-get autoremove -y \
+    && rm -rf \
+    /var/lib/apt \
+    /var/lib/dpkg \
+    /var/lib/cache \
+    /var/lib/log
 
-RUN gem install bundler -v 2.0.2
+# Create application directory
+# and set it as current
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
 
+# Install gems
+COPY Gemfile* $APP_HOME/
 RUN bundle install
-# RUN yarn install
 
-RUN RAILS_ENV=prod NODE_ENV=prod SECRET_KEY_BASE=not_set OLD_AWS_SECRET_ACCESS_KEY=not_set OLD_AWS_ACCESS_KEY_ID=not_set bundle exec rake assets:precompile
+# Copy over our application code
+COPY . . 
 
-# Add a script to be executed every time the container starts.
-COPY entrypoint.sh /usr/bin/
-RUN chmod +x /usr/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-EXPOSE 3000
+# Fake database URL tricks rake into running assets:precompile step that does not require database access 
+RUN DATABASE_URL=postgresql://something/something bundle exec rake assets:precompile
 
-# Start the main process.
-CMD ["rails", "server", "-b", "0.0.0.0"]
+# Run our app script
+CMD bash ./start.sh 3000 
