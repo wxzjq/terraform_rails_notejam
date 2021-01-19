@@ -106,10 +106,9 @@ resource "aws_codepipeline" "pipeline" {
       output_artifacts = ["source"]
 
       configuration = {
-        Owner      = "wxzjq"
-        Repo       = "terraform_rails_notejam"
-        Branch     = "master"
-        OAuthToken = "e839b7039688a5480c04a27991f9f372001c3ae2"
+        Owner  = "wxzjq"
+        Repo   = "terraform_rails_notejam"
+        Branch = "master"
       }
     }
   }

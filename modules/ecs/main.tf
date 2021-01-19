@@ -3,7 +3,7 @@
 Cloudwatch Log Group
 ======*/
 resource "aws_cloudwatch_log_group" "rails_terraform" {
-  name = "rails_terraform_codejam"
+  name = "rails_terraform_notejam"
 
   tags = {
     Environment = "${var.environment}"
@@ -191,7 +191,7 @@ data "aws_iam_policy_document" "ecs_service_role" {
 }
 
 resource "aws_iam_role" "ecs_role" {
-  name               = "ecs_role_codejam"
+  name               = "ecs_role_notejam"
   assume_role_policy = data.aws_iam_policy_document.ecs_service_role.json
 }
 
@@ -219,12 +219,12 @@ resource "aws_iam_role_policy" "ecs_service_role_policy" {
 
 /* role that the Amazon ECS container agent and the Docker daemon can assume */
 resource "aws_iam_role" "ecs_execution_role" {
-  name               = "ecs_task_execution_role_codejam"
+  name               = "ecs_task_execution_role_notejam"
   assume_role_policy = file("${path.module}/policies/ecs-task-execution-role.json")
 }
 
 resource "aws_iam_role_policy" "ecs_execution_role_policy" {
-  name   = "ecs_execution_role_policy_codejam"
+  name   = "ecs_execution_role_policy_notejam"
   policy = file("${path.module}/policies/ecs-execution-role-policy.json")
   role   = aws_iam_role.ecs_execution_role.id
 }
