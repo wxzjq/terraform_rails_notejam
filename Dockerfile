@@ -31,6 +31,7 @@ WORKDIR $APP_HOME
 # Install gems
 COPY Gemfile* $APP_HOME/
 RUN bundle install
+RUN bundle add pg
 
 # Copy over our application code
 COPY . . 
