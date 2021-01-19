@@ -29,11 +29,9 @@
 
 /public/packs
 /public/packs-test
-/modules
 /yarn-error.log
 yarn-debug.log*
 .yarn-integrity
-.terraform/*
 
 # Ignore terraform folder
 .terraform/
