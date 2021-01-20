@@ -40,3 +40,9 @@ variable "database_username" {
 variable "database_password" {
   description = "The password of the database"
 }
+
+variable "backup_retention_period" {
+  description = "The days to retain backups for"
+  type        = number
+  default     = 7
+}

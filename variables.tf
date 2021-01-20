@@ -37,3 +37,9 @@ variable "environment" {
 variable "availability_zones" {
   type = list(string)
 }
+
+variable "github_oauth_token" {
+  type        = string
+  description = "GitHub Oauth Token with permissions to access private repositories"
+  default     = ""
+}
