@@ -10,3 +10,5 @@ After successfully creating the plan run the following command
 This will start creating your AWS infrastructure for the application and will success with providing url for the application loadbalancer using the following command
 
 `$ terraform output alb_dns_name`
+
+Great !
